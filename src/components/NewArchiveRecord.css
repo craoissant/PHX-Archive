@@ -1,0 +1,704 @@
+/* ==========================================================================
+   PHX ARCHIVE
+   ADD NEW SHOOT
+   ========================================================================== */
+
+.new-record-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: flex-end;
+
+  background: rgba(23, 23, 23, 0.34);
+}
+
+
+/* ==========================================================================
+   PANEL
+   ========================================================================== */
+
+.new-record-panel {
+  width: min(720px, 100vw);
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+
+  background: var(--phx-ivory);
+  color: var(--phx-black);
+
+  border-left: 1px solid var(--phx-grey-300);
+
+  box-shadow: -20px 0 50px rgba(23, 23, 23, 0.14);
+
+  overflow: hidden;
+}
+
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+
+.new-record-header {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 32px;
+
+  padding: 30px 34px 26px;
+
+  background: var(--phx-white);
+
+  border-bottom: 1px solid var(--phx-grey-200);
+}
+
+.new-record-eyebrow {
+  margin: 0 0 7px;
+
+  color: var(--phx-grey-500);
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.2;
+
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.new-record-header h2 {
+  margin: 0;
+
+  color: var(--phx-black);
+
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.05;
+
+  letter-spacing: -0.02em;
+}
+
+.new-record-header > div > p:last-child {
+  margin: 9px 0 0;
+
+  color: var(--phx-grey-500);
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   CLOSE BUTTON
+   ========================================================================== */
+
+.new-record-close {
+  flex: 0 0 auto;
+
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid var(--phx-grey-300);
+  border-radius: 0;
+
+  background: transparent;
+
+  color: var(--phx-grey-700);
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 21px;
+  font-weight: 300;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background-color 120ms ease,
+    color 120ms ease,
+    border-color 120ms ease;
+}
+
+.new-record-close:hover {
+  background: var(--phx-black);
+  border-color: var(--phx-black);
+  color: var(--phx-white);
+}
+
+
+/* ==========================================================================
+   FORM AREA
+   ========================================================================== */
+
+.new-record-form {
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  padding: 32px 34px 40px;
+
+  box-sizing: border-box;
+}
+
+.new-record-form::-webkit-scrollbar {
+  width: 6px;
+}
+
+.new-record-form::-webkit-scrollbar-track {
+  background: var(--phx-grey-100);
+}
+
+.new-record-form::-webkit-scrollbar-thumb {
+  background: var(--phx-grey-300);
+}
+
+.new-record-form::-webkit-scrollbar-thumb:hover {
+  background: var(--phx-grey-500);
+}
+
+
+/* ==========================================================================
+   SECTIONS
+   ========================================================================== */
+
+.new-record-section {
+  margin: 0;
+  padding: 0 0 28px;
+}
+
+.new-record-section + .new-record-section {
+  padding-top: 28px;
+
+  border-top: 1px solid var(--phx-grey-200);
+}
+
+
+/* ==========================================================================
+   SECTION HEADINGS
+   ========================================================================== */
+
+.new-record-section-heading {
+  margin: 0 0 16px;
+
+  color: var(--phx-black);
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+
+/* ==========================================================================
+   CLIENT MODE TOGGLE
+   ========================================================================== */
+
+.client-mode-toggle {
+  display: inline-flex;
+  align-items: stretch;
+
+  width: fit-content;
+
+  margin-bottom: 20px;
+
+  border: 1px solid var(--phx-grey-300);
+}
+
+.client-mode-toggle button {
+  position: relative;
+
+  min-height: 36px;
+
+  padding: 0 15px;
+
+  border: 0;
+  border-right: 1px solid var(--phx-grey-300);
+  border-radius: 0;
+
+  background: var(--phx-white);
+
+  color: var(--phx-grey-500);
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.client-mode-toggle button:last-child {
+  border-right: 0;
+}
+
+.client-mode-toggle button:hover {
+  background: var(--phx-grey-100);
+  color: var(--phx-black);
+}
+
+.client-mode-toggle button.active {
+  background: var(--phx-black);
+  color: var(--phx-white);
+}
+
+.client-mode-toggle button.active:hover {
+  background: var(--phx-black);
+  color: var(--phx-white);
+}
+
+
+/* ==========================================================================
+   FIELD GRID
+   ========================================================================== */
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  column-gap: 18px;
+  row-gap: 20px;
+}
+
+
+/* ==========================================================================
+   FORM FIELDS
+   ========================================================================== */
+
+.form-field {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+
+/* ==========================================================================
+   LABELS
+   ========================================================================== */
+
+.form-field label {
+  display: block;
+
+  margin: 0;
+
+  color: var(--phx-grey-700);
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.2;
+
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+
+/* ==========================================================================
+   INPUTS AND SELECTS
+   ========================================================================== */
+
+.form-field input,
+.form-field select {
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 42px;
+
+  padding: 0 12px;
+
+  border: 1px solid var(--phx-grey-300);
+  border-radius: 0;
+
+  outline: none;
+
+  background: var(--phx-white);
+  color: var(--phx-black);
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease,
+    background-color 120ms ease;
+}
+
+.form-field input:hover,
+.form-field select:hover {
+  border-color: var(--phx-grey-500);
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  border-color: var(--phx-black);
+
+  box-shadow:
+    inset 0 -2px 0 var(--phx-mustard);
+}
+
+.form-field input::placeholder {
+  color: var(--phx-grey-500);
+}
+
+.form-field input:disabled,
+.form-field select:disabled {
+  background: var(--phx-grey-100);
+  color: var(--phx-grey-500);
+
+  cursor: not-allowed;
+}
+
+
+/* ==========================================================================
+   SELECT
+   ========================================================================== */
+
+.form-field select {
+  cursor: pointer;
+}
+
+
+/* ==========================================================================
+   COMBOBOX
+   ========================================================================== */
+
+.archive-combobox {
+  position: relative;
+
+  width: 100%;
+}
+
+.archive-combobox-input-wrapper {
+  position: relative;
+
+  width: 100%;
+}
+
+.archive-combobox-input-wrapper input {
+  width: 100%;
+
+  padding-right: 42px;
+}
+
+
+/* ==========================================================================
+   COMBOBOX TOGGLE
+   ========================================================================== */
+
+.archive-combobox-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 40px;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--phx-grey-500);
+
+  cursor: pointer;
+}
+
+.archive-combobox-toggle:hover {
+  color: var(--phx-black);
+}
+
+.archive-combobox-arrow {
+  display: block;
+
+  font-size: 14px;
+  line-height: 1;
+
+  transition: transform 150ms ease;
+}
+
+.archive-combobox-arrow.open {
+  transform: rotate(180deg);
+}
+
+
+/* ==========================================================================
+   COMBOBOX DROPDOWN
+   ========================================================================== */
+
+/*
+   The dropdown itself is rendered through a portal and therefore lives
+   outside the scrollable form. This allows it to escape the panel's
+   overflow boundaries.
+*/
+
+.archive-combobox-menu {
+  z-index: 99999;
+
+  max-height: 240px;
+
+  overflow-y: auto;
+
+  box-sizing: border-box;
+
+  background: var(--phx-white);
+
+  border: 1px solid var(--phx-grey-300);
+
+  box-shadow:
+    0 8px 24px rgba(23, 23, 23, 0.16);
+}
+
+.archive-combobox-menu::-webkit-scrollbar {
+  width: 5px;
+}
+
+.archive-combobox-menu::-webkit-scrollbar-track {
+  background: var(--phx-grey-100);
+}
+
+.archive-combobox-menu::-webkit-scrollbar-thumb {
+  background: var(--phx-grey-300);
+}
+
+
+/* ==========================================================================
+   COMBOBOX OPTIONS
+   ========================================================================== */
+
+.archive-combobox-option {
+  display: block;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px 12px;
+
+  border: 0;
+  border-bottom: 1px solid var(--phx-grey-100);
+
+  background: var(--phx-white);
+
+  color: var(--phx-black);
+
+  text-align: left;
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.3;
+
+  cursor: pointer;
+}
+
+.archive-combobox-option:last-child {
+  border-bottom: 0;
+}
+
+.archive-combobox-option:hover,
+.archive-combobox-option.active {
+  background: var(--phx-grey-100);
+}
+
+
+/* ==========================================================================
+   COMBOBOX — NO MATCH
+   ========================================================================== */
+
+.archive-combobox-empty {
+  padding: 11px 12px;
+
+  color: var(--phx-grey-500);
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+
+/* ==========================================================================
+   ERROR
+   ========================================================================== */
+
+.new-record-error {
+  margin: 4px 0 22px;
+
+  padding: 11px 13px;
+
+  border-left: 3px solid #8c3030;
+
+  background: #f5e7e5;
+
+  color: #702424;
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.new-record-footer {
+  position: sticky;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 9px;
+
+  margin: 8px -34px -40px;
+
+  padding: 16px 34px;
+
+  background: var(--phx-ivory);
+
+  border-top: 1px solid var(--phx-grey-200);
+}
+
+
+/* ==========================================================================
+   FOOTER BUTTONS
+   ========================================================================== */
+
+.new-record-cancel,
+.new-record-submit {
+  height: 36px;
+
+  padding: 0 15px;
+
+  border-radius: 0;
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.new-record-cancel {
+  border: 1px solid var(--phx-grey-300);
+
+  background: transparent;
+
+  color: var(--phx-grey-700);
+}
+
+.new-record-cancel:hover {
+  border-color: var(--phx-black);
+
+  background: var(--phx-white);
+
+  color: var(--phx-black);
+}
+
+.new-record-submit {
+  border: 1px solid var(--phx-black);
+
+  background: var(--phx-black);
+
+  color: var(--phx-white);
+}
+
+.new-record-submit:hover {
+  border-color: var(--phx-mustard);
+
+  background: var(--phx-mustard);
+
+  color: var(--phx-black);
+}
+
+.new-record-cancel:disabled,
+.new-record-submit:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  .new-record-panel {
+    width: 100vw;
+  }
+
+  .new-record-header {
+    padding: 25px 24px 22px;
+  }
+
+  .new-record-form {
+    padding: 28px 24px 34px;
+  }
+
+  .new-record-footer {
+    margin-right: -24px;
+    margin-left: -24px;
+
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+}
+
+
+@media (max-width: 560px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .client-mode-toggle {
+    width: 100%;
+  }
+
+  .client-mode-toggle button {
+    flex: 1;
+  }
+}

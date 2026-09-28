@@ -1,0 +1,406 @@
+/* ==========================================================================
+   PHX ARCHIVE
+   Archived Records
+   ========================================================================== */
+
+.archived-page {
+  min-height: 100vh;
+  background: var(--phx-ivory);
+  color: var(--phx-black);
+}
+
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+
+.archived-header {
+  padding: 36px 48px 30px;
+  border-bottom: 1px solid var(--phx-grey-200);
+  background: var(--phx-white);
+}
+
+.archived-header-top {
+  max-width: 1500px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.archived-eyebrow {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--phx-grey-500);
+}
+
+.archived-title {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 46px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.archived-subtitle {
+  margin: 14px 0 0;
+  font-size: 14px;
+  color: var(--phx-grey-500);
+}
+
+.archived-back-button {
+  flex-shrink: 0;
+  margin-top: 4px;
+  padding: 10px 16px;
+  border: 1px solid var(--phx-grey-300);
+  background: var(--phx-white);
+  color: var(--phx-black);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.archived-back-button:hover {
+  background: var(--phx-grey-100);
+  border-color: var(--phx-grey-500);
+}
+
+
+/* ==========================================================================
+   CONTENT
+   ========================================================================== */
+
+.archived-content {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 32px 48px 60px;
+}
+
+.archived-summary {
+  margin-bottom: 14px;
+  font-size: 12px;
+  color: var(--phx-grey-500);
+  letter-spacing: 0.02em;
+}
+
+.archived-error {
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border: 1px solid #d8aaa4;
+  background: #fff5f3;
+  color: #8b332a;
+  font-size: 13px;
+}
+
+
+/* ==========================================================================
+   TABLE
+   ========================================================================== */
+
+.archived-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--phx-grey-200);
+  background: var(--phx-white);
+}
+
+.archived-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 950px;
+}
+
+.archived-table th {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--phx-grey-200);
+  background: var(--phx-grey-100);
+  color: var(--phx-grey-500);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.archived-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--phx-grey-200);
+  vertical-align: middle;
+  font-size: 13px;
+}
+
+.archived-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.archived-table tbody tr:hover {
+  background: #fcfbf8;
+}
+
+.archived-project {
+  font-weight: 600;
+  color: var(--phx-black);
+}
+
+.archived-meta {
+  margin-top: 4px;
+  color: var(--phx-grey-500);
+  font-size: 11px;
+}
+
+.archived-division {
+  display: inline-block;
+  padding: 4px 7px;
+  background: var(--phx-grey-100);
+  color: var(--phx-grey-700);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.archived-date {
+  white-space: nowrap;
+}
+
+.archived-time {
+  margin-top: 3px;
+  color: var(--phx-grey-500);
+  font-size: 11px;
+}
+
+.archived-restore-button {
+  padding: 8px 12px;
+  border: 1px solid var(--phx-grey-300);
+  background: var(--phx-white);
+  color: var(--phx-black);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.archived-restore-button:hover {
+  background: var(--phx-mustard-soft);
+  border-color: var(--phx-mustard);
+}
+
+
+/* ==========================================================================
+   EMPTY STATE
+   ========================================================================== */
+
+.archived-empty {
+  padding: 80px 32px;
+  border: 1px solid var(--phx-grey-200);
+  background: var(--phx-white);
+  text-align: center;
+}
+
+.archived-empty-label {
+  margin: 0 0 12px;
+  color: var(--phx-grey-500);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.archived-empty h2 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.archived-empty p:last-child {
+  margin: 12px 0 0;
+  color: var(--phx-grey-500);
+  font-size: 13px;
+}
+
+
+/* ==========================================================================
+   RESTORE CONFIRMATION
+   ========================================================================== */
+
+.archived-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(23, 23, 23, 0.45);
+}
+
+.archived-confirm-panel {
+  width: min(460px, 100%);
+  padding: 32px;
+  background: var(--phx-white);
+  box-shadow: 0 18px 50px rgba(23, 23, 23, 0.18);
+}
+
+.archived-confirm-eyebrow {
+  margin: 0 0 10px;
+  color: var(--phx-grey-500);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.archived-confirm-panel h2 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.archived-confirm-description {
+  margin: 12px 0 0;
+  color: var(--phx-grey-500);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.archived-confirm-record {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 22px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--phx-mustard);
+  background: var(--phx-grey-100);
+}
+
+.archived-confirm-record strong {
+  font-size: 14px;
+}
+
+.archived-confirm-record span {
+  color: var(--phx-grey-500);
+  font-size: 12px;
+}
+
+.archived-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.archived-confirm-cancel,
+.archived-confirm-submit {
+  padding: 10px 16px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.archived-confirm-cancel {
+  border: 1px solid var(--phx-grey-300);
+  background: var(--phx-white);
+  color: var(--phx-black);
+}
+
+.archived-confirm-submit {
+  border: 1px solid var(--phx-black);
+  background: var(--phx-black);
+  color: var(--phx-white);
+}
+
+.archived-confirm-submit:disabled,
+.archived-confirm-cancel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* ==========================================================================
+   LOADING
+   ========================================================================== */
+
+.archived-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--phx-grey-500);
+  font-size: 13px;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .archived-header {
+    padding: 28px 24px 24px;
+  }
+
+  .archived-content {
+    padding: 28px 24px 48px;
+  }
+
+  .archived-title {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 600px) {
+  .archived-header {
+    padding: 24px 18px 20px;
+  }
+
+  .archived-header-top {
+    flex-direction: column;
+  }
+
+  .archived-content {
+    padding: 24px 18px 40px;
+  }
+
+  .archived-title {
+    font-size: 36px;
+  }
+
+  .archived-back-button {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .archived-table-wrapper {
+    margin-left: -18px;
+    margin-right: -18px;
+    border-left: none;
+    border-right: none;
+  }
+
+  .archived-empty {
+    padding: 60px 24px;
+  }
+
+  .archived-confirm-panel {
+    padding: 24px;
+  }
+
+  .archived-confirm-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .archived-confirm-cancel,
+  .archived-confirm-submit {
+    width: 100%;
+  }
+}
