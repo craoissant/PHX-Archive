@@ -46,13 +46,15 @@ function Archive() {
   const [yearFilter, setYearFilter] = useState('')
   const [divisionFilter, setDivisionFilter] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('')
+  const [mainCrewFilter, setMainCrewFilter] = useState('')
+  const [assistantCrewFilter, setAssistantCrewFilter] =
+    useState('')
   const [subCategoryFilter, setSubCategoryFilter] =
     useState('')
   const [cityFilter, setCityFilter] = useState('')
   const [stateFilter, setStateFilter] = useState('')
   const [hddAlphaFilter, setHddAlphaFilter] = useState('')
   const [hddBetaFilter, setHddBetaFilter] = useState('')
-  const [crewFilter, setCrewFilter] = useState('')
   const [page, setPage] = useState(1)
 
   const [selectedRecord, setSelectedRecord] =
@@ -304,27 +306,39 @@ function Archive() {
         return false
       }
 
+      // Main Crew filter
       if (
-  crewFilter &&
-  ![
-    record.lead_crew,
-    record.asst_1,
-    record.asst_2,
-    record.asst_3,
-  ].some(
-    (crew) =>
-      crew?.trim().toLowerCase() ===
-      crewFilter.trim().toLowerCase(),
-  )
-) {
-  return false
-}
+        mainCrewFilter &&
+        record.lead_crew?.trim().toLowerCase() !==
+          mainCrewFilter.trim().toLowerCase()
+      ) {
+        return false
+      }
+
+      // Assistant Crew filter
+      if (
+        assistantCrewFilter &&
+        ![
+          record.asst_1,
+          record.asst_2,
+          record.asst_3,
+        ].some(
+          (crew) =>
+            crew?.trim().toLowerCase() ===
+            assistantCrewFilter.trim().toLowerCase(),
+        )
+      ) {
+        return false
+      }
 
       if (subCategoryFilter) {
         const matchesSubCategory =
-          record.sub_category_1 === subCategoryFilter ||
-          record.sub_category_2 === subCategoryFilter ||
-          record.sub_category_3 === subCategoryFilter
+          record.sub_category_1 ===
+            subCategoryFilter ||
+          record.sub_category_2 ===
+            subCategoryFilter ||
+          record.sub_category_3 ===
+            subCategoryFilter
 
         if (!matchesSubCategory) {
           return false
@@ -366,7 +380,8 @@ function Archive() {
     yearFilter,
     divisionFilter,
     categoryFilter,
-    crewFilter,
+    mainCrewFilter,
+    assistantCrewFilter,
     subCategoryFilter,
     cityFilter,
     stateFilter,
@@ -382,7 +397,9 @@ function Archive() {
 
   const years = useMemo(() => {
     return Array.from(
-      new Set(records.map((record) => record.year)),
+      new Set(
+        records.map((record) => record.year),
+      ),
     ).sort((a, b) => b - a)
   }, [records])
 
@@ -403,27 +420,30 @@ function Archive() {
   }, [records])
 
   const subCategories = useMemo(() => {
-  return Array.from(
-    new Set(
-      records.flatMap((record) =>
-        [
-          record.sub_category_1,
-          record.sub_category_2,
-          record.sub_category_3,
-        ].filter(
-          (value): value is string =>
-            Boolean(value),
+    return Array.from(
+      new Set(
+        records.flatMap((record) =>
+          [
+            record.sub_category_1,
+            record.sub_category_2,
+            record.sub_category_3,
+          ].filter(
+            (value): value is string =>
+              Boolean(value),
+          ),
         ),
       ),
-    ),
-  ).sort()
-}, [records])
+    ).sort()
+  }, [records])
 
   const subCategory1Options = useMemo(() => {
     return Array.from(
       new Set(
         records
-          .map((record) => record.sub_category_1)
+          .map(
+            (record) =>
+              record.sub_category_1,
+          )
           .filter(
             (value): value is string =>
               Boolean(value),
@@ -436,7 +456,10 @@ function Archive() {
     return Array.from(
       new Set(
         records
-          .map((record) => record.sub_category_2)
+          .map(
+            (record) =>
+              record.sub_category_2,
+          )
           .filter(
             (value): value is string =>
               Boolean(value),
@@ -449,7 +472,10 @@ function Archive() {
     return Array.from(
       new Set(
         records
-          .map((record) => record.sub_category_3)
+          .map(
+            (record) =>
+              record.sub_category_3,
+          )
           .filter(
             (value): value is string =>
               Boolean(value),
@@ -458,12 +484,27 @@ function Archive() {
     ).sort()
   }, [records])
 
-  const crewOptions = useMemo(() => {
+  const mainCrewOptions = useMemo(() => {
+    return Array.from(
+      new Set(
+        records
+          .map(
+            (record) =>
+              record.lead_crew,
+          )
+          .filter(
+            (value): value is string =>
+              Boolean(value),
+          ),
+      ),
+    ).sort()
+  }, [records])
+
+  const assistantCrewOptions = useMemo(() => {
     return Array.from(
       new Set(
         records
           .flatMap((record) => [
-            record.lead_crew,
             record.asst_1,
             record.asst_2,
             record.asst_3,
@@ -475,6 +516,19 @@ function Archive() {
       ),
     ).sort()
   }, [records])
+
+  // Combined crew list used by NewArchiveRecord
+  const crewOptions = useMemo(() => {
+    return Array.from(
+      new Set([
+        ...mainCrewOptions,
+        ...assistantCrewOptions,
+      ]),
+    ).sort()
+  }, [
+    mainCrewOptions,
+    assistantCrewOptions,
+  ])
 
   const cities = useMemo(() => {
     return Array.from(
@@ -506,7 +560,10 @@ function Archive() {
     return Array.from(
       new Set(
         records
-          .map((record) => record.hdd_alpha)
+          .map(
+            (record) =>
+              record.hdd_alpha,
+          )
           .filter(Boolean),
       ),
     ).sort()
@@ -516,7 +573,10 @@ function Archive() {
     return Array.from(
       new Set(
         records
-          .map((record) => record.hdd_beta)
+          .map(
+            (record) =>
+              record.hdd_beta,
+          )
           .filter(Boolean),
       ),
     ).sort()
@@ -536,7 +596,8 @@ function Archive() {
   )
 
   const paginatedRecords = useMemo(() => {
-    const from = (page - 1) * PAGE_SIZE
+    const from =
+      (page - 1) * PAGE_SIZE
     const to = from + PAGE_SIZE
 
     return filteredRecords.slice(from, to)
@@ -549,6 +610,8 @@ function Archive() {
     yearFilter,
     divisionFilter,
     categoryFilter,
+    mainCrewFilter,
+    assistantCrewFilter,
     subCategoryFilter,
     cityFilter,
     stateFilter,
@@ -573,10 +636,11 @@ function Archive() {
     setYearFilter('')
     setDivisionFilter('')
     setCategoryFilter('')
+    setMainCrewFilter('')
+    setAssistantCrewFilter('')
     setSubCategoryFilter('')
     setCityFilter('')
     setStateFilter('')
-    setCrewFilter('')
     setHddAlphaFilter('')
     setHddBetaFilter('')
     setPage(1)
@@ -611,7 +675,9 @@ function Archive() {
       project: String(
         formData.get('project') ?? '',
       ),
-      year: Number(formData.get('year')),
+      year: Number(
+        formData.get('year'),
+      ),
       division: String(
         formData.get('division') ?? '',
       ),
@@ -621,113 +687,139 @@ function Archive() {
       sub_category_1:
         formData.get('sub_category_1')
           ? String(
-              formData.get('sub_category_1'),
+              formData.get(
+                'sub_category_1',
+              ),
             )
           : null,
       sub_category_2:
         formData.get('sub_category_2')
           ? String(
-              formData.get('sub_category_2'),
+              formData.get(
+                'sub_category_2',
+              ),
             )
           : null,
       sub_category_3:
         formData.get('sub_category_3')
           ? String(
-              formData.get('sub_category_3'),
+              formData.get(
+                'sub_category_3',
+              ),
             )
           : null,
       lead_crew:
         formData.get('lead_crew')
-          ? String(formData.get('lead_crew'))
+          ? String(
+              formData.get('lead_crew'),
+            )
           : null,
       asst_1:
         formData.get('asst_1')
-          ? String(formData.get('asst_1'))
+          ? String(
+              formData.get('asst_1'),
+            )
           : null,
       asst_2:
         formData.get('asst_2')
-          ? String(formData.get('asst_2'))
+          ? String(
+              formData.get('asst_2'),
+            )
           : null,
       asst_3:
         formData.get('asst_3')
-          ? String(formData.get('asst_3'))
+          ? String(
+              formData.get('asst_3'),
+            )
           : null,
       city:
         formData.get('city')
-          ? String(formData.get('city'))
+          ? String(
+              formData.get('city'),
+            )
           : null,
       state:
         formData.get('state')
-          ? String(formData.get('state'))
+          ? String(
+              formData.get('state'),
+            )
           : null,
     }
 
-    const { error } = await supabase.rpc(
-      'update_archive_record',
-      {
-        p_archive_id:
-          editingRecord.archive_id,
-        p_client_id:
-          editingRecord.client_id,
-        p_hdd_alpha:
-          updatedValues.hdd_alpha,
-        p_hdd_beta:
-          updatedValues.hdd_beta,
-        p_project:
-          updatedValues.project,
-        p_year:
-          updatedValues.year,
-        p_division:
-          updatedValues.division,
-        p_category:
-          updatedValues.category,
-        p_sub_category_1:
-          updatedValues.sub_category_1,
-        p_sub_category_2:
-          updatedValues.sub_category_2,
-        p_sub_category_3:
-          updatedValues.sub_category_3,
-        p_lead_crew:
-          updatedValues.lead_crew,
-        p_asst_1:
-          updatedValues.asst_1,
-        p_asst_2:
-          updatedValues.asst_2,
-        p_asst_3:
-          updatedValues.asst_3,
-        p_city:
-          updatedValues.city,
-        p_state:
-          updatedValues.state,
-      },
-    )
+    const { error } =
+      await supabase.rpc(
+        'update_archive_record',
+        {
+          p_archive_id:
+            editingRecord.archive_id,
+          p_client_id:
+            editingRecord.client_id,
+          p_hdd_alpha:
+            updatedValues.hdd_alpha,
+          p_hdd_beta:
+            updatedValues.hdd_beta,
+          p_project:
+            updatedValues.project,
+          p_year:
+            updatedValues.year,
+          p_division:
+            updatedValues.division,
+          p_category:
+            updatedValues.category,
+          p_sub_category_1:
+            updatedValues.sub_category_1,
+          p_sub_category_2:
+            updatedValues.sub_category_2,
+          p_sub_category_3:
+            updatedValues.sub_category_3,
+          p_lead_crew:
+            updatedValues.lead_crew,
+          p_asst_1:
+            updatedValues.asst_1,
+          p_asst_2:
+            updatedValues.asst_2,
+          p_asst_3:
+            updatedValues.asst_3,
+          p_city:
+            updatedValues.city,
+          p_state:
+            updatedValues.state,
+        },
+      )
 
     if (error) {
-      console.error('Update failed:', error)
+      console.error(
+        'Update failed:',
+        error,
+      )
       alert(error.message)
       return
     }
 
-    setRecords((currentRecords) =>
-      currentRecords.map((record) =>
-        record.archive_id ===
-        editingRecord.archive_id
-          ? {
-              ...record,
-              ...updatedValues,
-            }
-          : record,
-      ),
+    setRecords(
+      (currentRecords) =>
+        currentRecords.map(
+          (record) =>
+            record.archive_id ===
+            editingRecord.archive_id
+              ? {
+                  ...record,
+                  ...updatedValues,
+                }
+              : record,
+        ),
     )
 
-    setSelectedRecord((current) =>
-      current &&
-      current.archive_id === editingRecord.archive_id
-        ? {
-            ...current,
-            ...updatedValues,
-          }
-        : current,
+    setSelectedRecord(
+      (current) =>
+        current &&
+        current.archive_id ===
+          editingRecord.archive_id
+          ? {
+              ...current,
+              ...updatedValues,
+            }
+          : current,
     )
 
     setEditingRecord(null)
@@ -746,27 +838,32 @@ function Archive() {
 
     setArchiving(true)
 
-    const { error } = await supabase.rpc(
-      'archive_record',
-      {
-        p_archive_id:
-          archivingRecord.archive_id,
-      },
-    )
+    const { error } =
+      await supabase.rpc(
+        'archive_record',
+        {
+          p_archive_id:
+            archivingRecord.archive_id,
+        },
+      )
 
     if (error) {
-      console.error('Archive failed:', error)
+      console.error(
+        'Archive failed:',
+        error,
+      )
       alert(error.message)
       setArchiving(false)
       return
     }
 
-    setRecords((currentRecords) =>
-      currentRecords.filter(
-        (record) =>
-          record.archive_id !==
-          archivingRecord.archive_id,
-      ),
+    setRecords(
+      (currentRecords) =>
+        currentRecords.filter(
+          (record) =>
+            record.archive_id !==
+            archivingRecord.archive_id,
+        ),
     )
 
     setArchivingRecord(null)
@@ -794,7 +891,8 @@ function Archive() {
     return (
       <main className="archive-page">
         <div className="archive-loading">
-          You do not have access to the PHX Archive.
+          You do not have access to the
+          PHX Archive.
         </div>
       </main>
     )
@@ -826,7 +924,8 @@ function Archive() {
 
             <p className="archive-description">
               Search and access archived projects,
-              locations, crews and storage references.
+              locations, crews and storage
+              references.
             </p>
           </div>
 
@@ -839,7 +938,9 @@ function Archive() {
               <button
                 type="button"
                 className="archive-add-button"
-                onClick={() => setShowNewRecord(true)}
+                onClick={() =>
+                  setShowNewRecord(true)
+                }
               >
                 + Add New Shoot
               </button>
@@ -914,7 +1015,9 @@ function Archive() {
               <select
                 value={yearFilter}
                 onChange={(event) =>
-                  setYearFilter(event.target.value)
+                  setYearFilter(
+                    event.target.value,
+                  )
                 }
               >
                 <option value="">
@@ -947,14 +1050,16 @@ function Archive() {
                   All divisions
                 </option>
 
-                {divisions.map((division) => (
-                  <option
-                    key={division}
-                    value={division}
-                  >
-                    {division}
-                  </option>
-                ))}
+                {divisions.map(
+                  (division) => (
+                    <option
+                      key={division}
+                      value={division}
+                    >
+                      {division}
+                    </option>
+                  ),
+                )}
               </select>
             </label>
 
@@ -973,40 +1078,74 @@ function Archive() {
                   All categories
                 </option>
 
-                {categories.map((category) => (
-                  <option
-                    key={category}
-                    value={category}
-                  >
-                    {category}
-                  </option>
-                ))}
+                {categories.map(
+                  (category) => (
+                    <option
+                      key={category}
+                      value={category}
+                    >
+                      {category}
+                    </option>
+                  ),
+                )}
               </select>
             </label>
 
             <label>
-  Crew
+              Main Crew
 
-  <select
-    value={crewFilter}
-    onChange={(event) =>
-      setCrewFilter(event.target.value)
-    }
-  >
-    <option value="">
-      All crew
-    </option>
+              <select
+                value={mainCrewFilter}
+                onChange={(event) =>
+                  setMainCrewFilter(
+                    event.target.value,
+                  )
+                }
+              >
+                <option value="">
+                  All main crew
+                </option>
 
-    {crewOptions.map((crew) => (
-      <option
-        key={crew}
-        value={crew}
-      >
-        {crew}
-      </option>
-    ))}
-  </select>
-</label>
+                {mainCrewOptions.map(
+                  (crew) => (
+                    <option
+                      key={crew}
+                      value={crew}
+                    >
+                      {crew}
+                    </option>
+                  ),
+                )}
+              </select>
+            </label>
+
+            <label>
+              Assistant Crew
+
+              <select
+                value={assistantCrewFilter}
+                onChange={(event) =>
+                  setAssistantCrewFilter(
+                    event.target.value,
+                  )
+                }
+              >
+                <option value="">
+                  All assistant crew
+                </option>
+
+                {assistantCrewOptions.map(
+                  (crew) => (
+                    <option
+                      key={crew}
+                      value={crew}
+                    >
+                      {crew}
+                    </option>
+                  ),
+                )}
+              </select>
+            </label>
 
             <label>
               Sub-category
@@ -1233,7 +1372,8 @@ function Archive() {
                             record.sub_category_3,
                           ]
                             .filter(Boolean)
-                            .join(' · ') || '—'}
+                            .join(' · ') ||
+                            '—'}
                         </td>
 
                         <td>
@@ -1271,7 +1411,10 @@ function Archive() {
               disabled={page === 1}
               onClick={() =>
                 setPage((current) =>
-                  Math.max(1, current - 1),
+                  Math.max(
+                    1,
+                    current - 1,
+                  ),
                 )
               }
             >
@@ -1301,24 +1444,32 @@ function Archive() {
           </div>
         )}
 
-      {showNewRecord && isAdmin && (
-        <NewArchiveRecord
-          onClose={() => setShowNewRecord(false)}
-          onCreated={async () => {
-            setShowNewRecord(false)
-            await loadRecords()
-          }}
-          categoryOptions={categories}
-          hddAlphaOptions={hddAlphas}
-          hddBetaOptions={hddBetas}
-          subCategory1Options={subCategory1Options}
-          subCategory2Options={subCategory2Options}
-          subCategory3Options={subCategory3Options}
-          crewOptions={crewOptions}
-          cityOptions={cities}
-          stateOptions={states}
-        />
-      )}
+        {showNewRecord && isAdmin && (
+          <NewArchiveRecord
+            onClose={() =>
+              setShowNewRecord(false)
+            }
+            onCreated={async () => {
+              setShowNewRecord(false)
+              await loadRecords()
+            }}
+            categoryOptions={categories}
+            hddAlphaOptions={hddAlphas}
+            hddBetaOptions={hddBetas}
+            subCategory1Options={
+              subCategory1Options
+            }
+            subCategory2Options={
+              subCategory2Options
+            }
+            subCategory3Options={
+              subCategory3Options
+            }
+            crewOptions={crewOptions}
+            cityOptions={cities}
+            stateOptions={states}
+          />
+        )}
 
       </div>
 
@@ -1331,7 +1482,8 @@ function Archive() {
           className="archive-detail-overlay"
           onMouseDown={(event) => {
             if (
-              event.target === event.currentTarget
+              event.target ===
+              event.currentTarget
             ) {
               setSelectedRecord(null)
             }
